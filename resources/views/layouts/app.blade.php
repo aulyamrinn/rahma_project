@@ -59,6 +59,10 @@
                     <i class="bi bi-clipboard2-data"></i>
                     <span>Kelola Pengaduan</span>
                 </a>
+                <a href="{{ route('admin.pengguna.index') }}" class="nav-link-sc {{ request()->routeIs('admin.pengguna.*') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i>
+                    <span>Kelola Pengguna</span>
+                </a>
             @else
                 <div class="sidebar-header">Menu Siswa</div>
                 <a href="{{ route('siswa.dashboard') }}" class="nav-link-sc {{ request()->routeIs('siswa.dashboard') ? 'active' : '' }}">

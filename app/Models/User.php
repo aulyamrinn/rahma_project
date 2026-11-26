@@ -60,6 +60,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is administrator.
+     */
+    public function isPetugas(): bool
+    {
+        return $this->role === 'petugas';
+    }
+
+
+    /**
      * Check if user is student.
      */
     public function isSiswa(): bool

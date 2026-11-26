@@ -4,27 +4,35 @@
 @section('page-title', 'Manajemen Pengaduan Sarana')
 
 @section('content')
-<!-- Status Quick Filter Buttons -->
-<div class="d-flex flex-wrap gap-2 mb-3">
-    <a href="{{ route('admin.aspirasi.index', request()->except('status', 'page')) }}" 
-       class="btn btn-sm {{ !request('status') ? 'btn-primary' : 'btn-outline-secondary bg-white' }} rounded-pill px-3">
-        Semua ({{ $counts['total'] }})
-    </a>
-    <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Menunggu'])) }}" 
-       class="btn btn-sm {{ request('status') === 'Menunggu' ? 'btn-warning' : 'btn-outline-warning text-dark bg-white' }} rounded-pill px-3">
-        Menunggu ({{ $counts['menunggu'] }})
-    </a>
-    <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Diproses'])) }}" 
-       class="btn btn-sm {{ request('status') === 'Diproses' ? 'btn-primary' : 'btn-outline-primary bg-white' }} rounded-pill px-3">
-        Diproses ({{ $counts['diproses'] }})
-    </a>
-    <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Selesai'])) }}" 
-       class="btn btn-sm {{ request('status') === 'Selesai' ? 'btn-success' : 'btn-outline-success bg-white' }} rounded-pill px-3">
-        Selesai ({{ $counts['selesai'] }})
-    </a>
-    <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Ditolak'])) }}" 
-       class="btn btn-sm {{ request('status') === 'Ditolak' ? 'btn-danger' : 'btn-outline-danger bg-white' }} rounded-pill px-3">
-        Ditolak ({{ $counts['ditolak'] }})
+<!-- Status Quick Filter Buttons & PDF Export -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ route('admin.aspirasi.index', request()->except('status', 'page')) }}" 
+           class="btn btn-sm {{ !request('status') ? 'btn-primary' : 'btn-outline-secondary bg-white' }} rounded-pill px-3">
+            Semua ({{ $counts['total'] }})
+        </a>
+        <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Menunggu'])) }}" 
+           class="btn btn-sm {{ request('status') === 'Menunggu' ? 'btn-warning' : 'btn-outline-warning text-dark bg-white' }} rounded-pill px-3">
+            Menunggu ({{ $counts['menunggu'] }})
+        </a>
+        <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Diproses'])) }}" 
+           class="btn btn-sm {{ request('status') === 'Diproses' ? 'btn-primary' : 'btn-outline-primary bg-white' }} rounded-pill px-3">
+            Diproses ({{ $counts['diproses'] }})
+        </a>
+        <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Selesai'])) }}" 
+           class="btn btn-sm {{ request('status') === 'Selesai' ? 'btn-success' : 'btn-outline-success bg-white' }} rounded-pill px-3">
+            Selesai ({{ $counts['selesai'] }})
+        </a>
+        <a href="{{ route('admin.aspirasi.index', array_merge(request()->except('page'), ['status' => 'Ditolak'])) }}" 
+           class="btn btn-sm {{ request('status') === 'Ditolak' ? 'btn-danger' : 'btn-outline-danger bg-white' }} rounded-pill px-3">
+            Ditolak ({{ $counts['ditolak'] }})
+        </a>
+    </div>
+
+    <a href="{{ route('admin.aspirasi.print-pdf', request()->query()) }}"
+       target="_blank"
+       class="btn btn-danger btn-sm rounded-pill px-3 shadow-sm">
+        <i class="bi bi-file-earmark-pdf-fill me-1"></i> Cetak PDF
     </a>
 </div>
 

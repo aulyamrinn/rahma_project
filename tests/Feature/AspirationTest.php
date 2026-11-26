@@ -187,5 +187,36 @@ class AspirationTest extends TestCase
 
         $response->assertRedirect(route('admin.aspirasi.index'));
     }
+
+    public function test_admin_can_access_print_pdf_report_with_filters(): void
+    {
+        Aspiration::create([
+            'ticket_number' => 'SC-20261112-0005',
+            'user_id' => $this->student1->id,
+            'category_id' => $this->category->id,
+            'title' => 'Laporan Selesai Cetak PDF',
+            'location' => 'Ruang Guru',
+            'description' => 'Meja guru sudah diperbaiki dengan baik.',
+            'status' => 'Selesai',
+        ]);
+
+        Aspiration::create([
+            'ticket_number' => 'SC-20261112-0006',
+            'user_id' => $this->student1->id,
+            'category_id' => $this->category->id,
+            'title' => 'Laporan Menunggu Tidak Ikut Filter',
+            'location' => 'Gudang',
+            'description' => 'Masih menunggu pemeriksaan.',
+            'status' => 'Menunggu',
+        ]);
+
+        $response = $this->actingAs($this->admin)->get(route('admin.aspirasi.print-pdf', ['status' => 'Selesai']));
+        $response->assertStatus(200);
+        $response->assertHeader('content-type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF-', $response->getContent());
+
+        $studentResponse = $this->actingAs($this->student1)->get(route('admin.aspirasi.print-pdf'));
+        $studentResponse->assertRedirect(route('siswa.dashboard'));
+    }
 }
 

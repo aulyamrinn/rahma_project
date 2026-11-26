@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AspirationController as AdminAspirationController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MediaController;
@@ -37,10 +38,14 @@ Route::post('/logout', [AuthController::class, 'logout'])
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/aspirasi', [AdminAspirationController::class, 'index'])->name('aspirasi.index');
+    Route::get('/aspirasi/cetak-pdf', [AdminAspirationController::class, 'printPdf'])->name('aspirasi.print-pdf');
     Route::get('/aspirasi/{id}', [AdminAspirationController::class, 'show'])->name('aspirasi.show');
     Route::put('/aspirasi/{id}/status', [AdminAspirationController::class, 'updateStatus'])->name('aspirasi.update-status');
     Route::post('/aspirasi/{id}/feedback', [AdminAspirationController::class, 'storeFeedback'])->name('aspirasi.feedback');
     Route::delete('/aspirasi/{id}', [AdminAspirationController::class, 'destroy'])->name('aspirasi.destroy');
+
+    // User Management (CRUD Admin & Siswa)
+    Route::resource('pengguna', AdminUserController::class)->except(['show']);
 });
 
 // Siswa Routes (Role: siswa)
